@@ -1,12 +1,57 @@
-# React + Vite
+# PWA practice project
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+📦 Step 1: Install Plugin
+npm install vite-plugin-pwa --save-dev
 
-Currently, two official plugins are available:
+⚙️ Step 2: Configure the Plugin in vite.config.ts or vite.config.js
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+// vite.config.ts
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import { VitePWA } from 'vite-plugin-pwa'
 
-## Expanding the ESLint configuration
+export default defineConfig({
+plugins: [
+react(),
+VitePWA({
+registerType: 'autoUpdate', // optional: auto update service worker
+includeAssets: ['favicon.svg', 'robots.txt', 'apple-touch-icon.png'], // optional
+manifest: {
+name: 'My Vite PWA',
+short_name: 'VitePWA',
+description: 'My Progressive Web App built with Vite and React',
+theme_color: '#ffffff',
+background_color: '#ffffff',
+display: 'standalone',
+start_url: '/',
+icons: [
+{
+src: 'pwa-192x192.png',
+sizes: '192x192',
+type: 'image/png'
+},
+{
+src: 'pwa-512x512.png',
+sizes: '512x512',
+type: 'image/png'
+}
+]
+}
+})
+]
+})
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+🧾 Step 3: Add Manifest Icons
+Put these icon images in the public/ folder:
+
+public/pwa-192x192.png
+
+public/pwa-512x512.png
+
+Also, add a robots.txt or favicon.svg if you want (not mandatory).
+
+🧪 Step 4: Build & Preview
+To test your PWA:
+
+npm run build
+npx serve dist
